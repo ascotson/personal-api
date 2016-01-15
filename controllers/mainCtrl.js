@@ -49,16 +49,17 @@ module.exports = {
 
   changeName: function(req, res, next) {
     users.name = req.body;
-    res.status(204).json();
+    res.status(200).json();
   },
 
   updateLocation: function(req, res, next) {
     users.location = req.body;
-    res.status(204).json();
+    res.status(200).json();
   },
 
   addHobby: function(req, res, next) {
     users.hobbies.push(req.body);
+    res.status(200).json();
   },
 
   addOccupation: function(req, res, next) {
@@ -78,5 +79,19 @@ module.exports = {
     } else {
     res.json(users.skills);
     }
+  },
+
+  postSkills: function(req, res, next) {
+    users.skills.push({
+      id: req.body.id,
+      name: req.body.name,
+      experience: req.body.experience
+    });
+    res.json(users.skills[(users.skills.length - 1)]);
+  },
+
+  verifiedUser: function(req, res, next) {
+    var success = 'Congratulations you have successfully logged in!';
+    res.json(success);
   }
 };
