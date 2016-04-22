@@ -9,30 +9,33 @@ module.exports = {
         name: 'Quacking',
         type: 'past'
       }],
-
-      skills: [{
+    skills: [{
         id: 1,
         name: 'Javascript',
         experience: 'Intermediate'
       },{
         id: 2,
         name: 'HTML',
-        experience: 'Beginner'
+        experience: 'Advanced'
       },{
         id: 3,
         name: 'CSS',
-        experience: 'Beginner'
+        experience: 'Intermediate'
       },{
         id: 4,
         name: 'AngularJS',
-        experience: 'Beginner'
+        experience: 'Intermediate'
       },{
         id: 5,
         name: 'NodeJS',
-        experience: 'Beginner'
+        experience: 'Intermediate'
       },{
         id: 6,
         name: 'ExpressJS',
+        experience: 'Intermediate'
+      },{
+        id: 7,
+        name: 'ReactJS',
         experience: 'Beginner'
       }]
     };

@@ -1,97 +1,111 @@
-var users = require('../models/user');
-var hobbies = users.hobbies;
-var occupations = users.occupations;
+var user = require('../models/user');
+var hobbies = user.hobbies;
+var occupations = user.occupations;
+var skills = user.skills;
 
 module.exports = {
   getName: function(req, res, next) {
-    res.json(users.name);
+    res.status(200).json(user.name);
   },
 
   getLocation: function(req, res, next) {
-    res.json(users.location);
+    res.status(200).json(user.location);
   },
 
   getOccupations: function(req, res, next) {
     var sortedOccupations = [];
     if(req.query.order === 'desc') {
       sortedOccupations.push(occupations.sort());
-      res.json(sortedOccupations);
+      res.status(200).json(sortedOccupations);
     }
     else if (req.query.order === 'asc') {
       sortedOccupations.push(occupations.reverse());
-      res.json(sortedOccupations);
+      res.status(200).json(sortedOccupations);
     }
     else {
-      res.json(occupations);
+      res.status(200).json(occupations);
     }
   },
 
   getLatestOccupation: function(req, res, next) {
-    res.json({
+    res.status(200).json({
       "latestOccupation": occupations[occupations.length - 1]
     });
   },
 
   getHobbies: function(req, res, next) {
-    res.json(hobbies);
+    res.status(200).json(hobbies);
   },
 
   getHobbiesType: function(req, res, next) {
     var matches = [];
-
     for(var i = 0; i < (hobbies.length); i++) {
-      if(req.params.id === hobbies[i].type) {
+      if(hobbies[i].type === req.params.type) {
         matches.push(hobbies[i].name);
       }
     }
-    res.json(matches);
+    res.status(200).json(matches);
   },
 
   changeName: function(req, res, next) {
-    users.name = req.body;
-    res.status(200).json();
+    user.name = req.body;
+    console.log('Name successfully changed!');
+    res.status(200).json(user.name);
   },
 
   updateLocation: function(req, res, next) {
-    users.location = req.body;
-    res.status(200).json();
+    user.location = req.body;
+    console.log('Location successfully changed!');
+    res.status(200).json(user.location);
   },
 
   addHobby: function(req, res, next) {
-    users.hobbies.push(req.body);
-    res.status(200).json();
+    hobbies.push(req.body);
+    console.log('Hobby successfully added!');
+    res.status(200).json(hobbies);
   },
 
   addOccupation: function(req, res, next) {
-    users.occupations.push(req.body);
+    occupations.push(req.body.occupations);
+    console.log('Occupation successfully added!');
+    res.status(200).json(occupations);
   },
 
   getSkills: function(req, res, next) {
     if(req.query.experience) {
-      console.log(req.query.experience);
+      var found = false;
       var results = [];
-      for(var i = 0; i < users.skills.length; i++) {
-        if(users.skills[i].experience === req.query.experience) {
-          results.push(users.skills[i].name);
+      for(var i = 0; i < skills.length; i++) {
+        if(skills[i].experience === req.query.experience) {
+          found = true;
+          results.push(skills[i].name);
         }
       }
-      res.json(results);
+      if(found){
+        console.log('Experience record found!');
+        res.status(200).json(results);
+      } else {
+        console.log('I am sorry. Experience record was NOT found!');
+        res.status(200).json(skills);
+      }
     } else {
-    res.json(users.skills);
+      console.log('Here are my skills!');
+      res.status(200).json(skills);
     }
   },
 
-  postSkills: function(req, res, next) {
-    users.skills.push({
+  addSkill: function(req, res, next) {
+    skills.push({
       id: req.body.id,
       name: req.body.name,
       experience: req.body.experience
     });
-    res.json(users.skills[(users.skills.length - 1)]);
+    console.log('New skill successfully added!');
+    res.status(200).json(skills); //Can optionally return just the new skill that was added by using res.status(200).json(skills)[(skills.length - 1)];
   },
 
   verifiedUser: function(req, res, next) {
     var success = 'Congratulations you have successfully logged in!';
-    res.json(success);
+    res.status(200).json(success);
   }
 };
